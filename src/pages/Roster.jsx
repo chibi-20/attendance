@@ -92,14 +92,15 @@ export default function Roster() {
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
+      transformHeader: (h) => h.trim().toLowerCase().replace(/_/g, ' '),
       complete: async (results) => {
         const rows = results.data
           .map((r) => ({
-            lrn: (r.LRN || r.lrn || '').trim() || null,
-            last_name: (r['Last Name'] || r.last_name || '').trim(),
-            first_name: (r['First Name'] || r.first_name || '').trim(),
-            middle_name: (r['Middle Name'] || r.middle_name || '').trim() || null,
-            sex: (r.Sex || r.sex || '').trim().toUpperCase() || null,
+            lrn: (r.lrn || '').trim() || null,
+            last_name: (r['last name'] || '').trim(),
+            first_name: (r['first name'] || '').trim(),
+            middle_name: (r['middle name'] || '').trim() || null,
+            sex: (r.sex || '').trim().toUpperCase() || null,
             section_id: sectionId,
           }))
           .filter((r) => r.last_name && r.first_name)
